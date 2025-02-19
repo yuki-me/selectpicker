@@ -1,0 +1,60 @@
+:root {
+  --width: 250px;
+}
+.dropdown {
+  position: relative;
+  display: inline-block;
+  width: var(--width);
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: calc(var(--width) / 1.11);
+  border: 1px solid #ccc;
+  z-index: 1;
+}
+
+.search-section {
+  padding: 0px;
+  width: calc(var(--width) / 1);
+  cursor: pointer;
+}
+
+.dropdown-content .list-items {
+  padding: 8px 12px;
+  width: calc(var(--width) / 1.11);
+  cursor: pointer;
+}
+
+.dropdown-content .list-items:hover,
+.isActive {
+  background-color: #c2c2c2;
+}
+
+.show {
+  display: block;
+}
+
+.search-input {
+  box-sizing: border-box;
+  padding: 8px;
+  width: 100%;
+}
+
+.search-click {
+  box-sizing: border-box;
+  display: flex;
+  color: gray;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  padding: 8px;
+  width: 100%;
+}
+
+.input-style {
+  width: calc(var(--width) / 1.035);
+  height: 25px;
+}
