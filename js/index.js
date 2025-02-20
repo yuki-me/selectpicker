@@ -6,7 +6,7 @@ let listItems = [
   { key: "5", value: "Elderberry" },
   { key: "6", value: "Fig" },
   { key: "7", value: "Grape" },
-  { key: "8", value: "Honeydew" },
+  { key: "8", value: "Honeydew Honeydew Honeydew Honeydew Honeydew Honeydew" },
 ];
 let isShow = false;
 let clickCount = 0;
@@ -20,20 +20,35 @@ $(document).ready(function () {
 
   $("#searchInput").on("click", function () {
     $("#dropdownList").addClass("show");
+    $(".input-style").focus();
     clickCount++;
   });
 
+  // $("#searchInput span").on("click", function () {
+  //   $("#dropdownList").addClass("show");
+  //   clickCount++;
+  // });
+
   $(window).click(function (e) {
+    console.log($(e.target).closest(".search-click"));
     if (
       e.target.className.includes("list-items") ||
       e.target.className.includes("input-style") ||
-      (e.target.className.includes("search-click") && clickCount < 2)
+      (e.target.className.includes("search-click") && clickCount < 2) ||
+      ($(e.target).closest(".search-click").length > 0 && clickCount < 2) ||
+      $(e.target).closest(".list-items").length > 0
     ) {
       let target = e.target;
-      console.log($(target));
-      console.log("ok");
+      let text = $(target).closest(".list-items").find("span").text();
+      if (text !== "") {
+        $("#searchInput").find(".text").text(text);
+        clickCount = 0;
+        $(".isActive").removeClass("isActive");
+        $("#dropdownList").removeClass("show");
+      }
     } else {
       clickCount = 0;
+      $(".isActive").removeClass("isActive");
       $("#dropdownList").removeClass("show");
     }
   });
@@ -41,7 +56,6 @@ $(document).ready(function () {
   $("#search").on("keyup", function (e) {
     //38 key up
     //40 key down
-    console.log(e.keyCode);
     let isActive = $(".isActive").length;
     let items = $(".list-items");
     if (e.keyCode === 38) {
@@ -57,13 +71,13 @@ $(document).ready(function () {
         "isActive"
       );
     } else if (e.keyCode === 13) {
-      let result = items.filter(function (index, item) {
-        if ($(item).hasClass("isActive")) {
-          return item;
-        }
-      });
-      console.log($(result)[0].attributes["title"]); /// next
-      $("#searchInput").find(".text").text($(result).val());
+      let text = $(".isActive").find("span").text();
+      if (text !== "" && text !== undefined) {
+        $("#searchInput").find(".text").text(text);
+        clickCount = 0;
+        $(".isActive").removeClass("isActive");
+        $("#dropdownList").removeClass("show");
+      }
     } else {
       filterFunction();
     }
@@ -92,7 +106,7 @@ $(document).ready(function () {
           `<div class="list-items"
                 title="${data[i].value}"
                 data-value="${data[i].key}">
-                    ${data[i].value}
+                    <span>${data[i].value}</span>
             </div>`
         )
       );
